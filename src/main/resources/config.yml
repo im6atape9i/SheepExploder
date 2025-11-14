@@ -1,0 +1,21 @@
+charge-item: STICK
+charge-item-lore: "§7Используй на овце, чтобы зарядить её TNT"
+charge-consume: true
+max-charges: 10
+
+trigger-item: FLINT_AND_STEEL
+target-entity: SHEEP
+
+timer-seconds: 3
+
+base-power: 0.0
+per-charge-power: 2.0
+scale-per-charge: 0.1
+
+break-blocks: true
+set-fire: true
+
+follow-radius: 20
+follow-speed: 0.15
+
+require-charge-to-ignite: true

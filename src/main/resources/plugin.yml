@@ -1,0 +1,14 @@
+name: SheepExplode
+main: com.example.sheepexplode.SheepExplodePlugin
+version: 1.0
+api-version: 1.21
+author: YourName
+commands:
+  sheepexplode:
+    description: Управление плагином SheepExplode
+    usage: /sheepexplode reload
+    permission: sheepexplode.admin
+permissions:
+  sheepexplode.admin:
+    description: Позволяет использовать /sheepexplode reload
+    default: op
