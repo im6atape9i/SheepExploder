@@ -224,7 +224,7 @@ public class SheepInteractListener implements Listener {
 
                     // дополнительные визуалы ближе к взрыву
                     int remaining = totalTicks - tick;
-                    if (remaining <= 20) { // последние секундa
+                    if (remaining <= 30) { // последние секундa
                         sheep.getWorld().spawnParticle(Particle.SMOKE, sheep.getLocation().add(0, 0.5, 0), 8, 0.2, 0.2, 0.2, 0.02);
                         sheep.getWorld().playSound(sheep.getLocation(), Sound.BLOCK_FIRE_AMBIENT, 0.6f, 1.2f);
                     }
