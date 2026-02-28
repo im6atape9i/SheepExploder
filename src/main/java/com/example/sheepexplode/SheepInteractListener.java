@@ -80,6 +80,7 @@ public class SheepInteractListener implements Listener {
         final double speed = cfg.getDouble("follow-speed", 0.15);
         final double scalePerCharge = cfg.getDouble("scale-per-charge", 0.1);
         final String chargeItemLore = cfg.getString("charge-item-lore", "");
+        final String chargeItemName = cfg.getString("charge-item-name", "");
 
         // проверка существа по имени
         if (!clicked.getType().name().equalsIgnoreCase(targetEntityName)) return;
@@ -88,18 +89,20 @@ public class SheepInteractListener implements Listener {
         final UUID sid = sheep.getUniqueId();
 
         // ------------- Зарядка (правый клик TNT) -------------
-        if (item != null && item.getType() == chargeItem && item.getItemMeta().hasLore() && item.getItemMeta().getLore() != null && item.getItemMeta().getLore().contains(chargeItemLore)) {
+        if (item != null && item.getType() == chargeItem && item.getItemMeta().hasLore() && item.getItemMeta().getLore() != null && item.getItemMeta().getLore().contains(chargeItemLore)
+                                                         && item.getItemMeta().getDisplayName() != null && item.getItemMeta().getDisplayName().equals(chargeItemName)){
+
             event.setCancelled(true);
 
             // Если овца уже в процессе отсчёта — нельзя заряжать
             if (activeTimers.containsKey(sid)) {
-                player.sendMessage("§cЭта сущность уже активирована и не может быть дополнительно заряжена.");
+                //player.sendMessage("§cЭта сущность уже активирована и не может быть дополнительно заряжена.");
                 return;
             }
 
             int current = chargeMap.containsKey(sid) ? chargeMap.get(sid) : 0;
             if (current >= maxCharges) {
-                player.sendMessage("§eОвца уже заряжена на максимум (" + maxCharges + ").");
+                //player.sendMessage("§eОвца уже заряжена на максимум (" + maxCharges + ").");
                 // эффект/звук, чтобы показать насыщенность
                 sheep.getWorld().spawnParticle(Particle.LARGE_SMOKE, sheep.getLocation().add(0, 0.5, 0), 8, 0.2, 0.2, 0.2, 0.0);
                 sheep.getWorld().playSound(sheep.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.8f, 1.2f);
@@ -134,17 +137,17 @@ public class SheepInteractListener implements Listener {
             // можно менять цвет шерсти зависимо от заряда (по кругу) — опционально
             // оставим белый/красный мигание при активации, но при зарядке покажем частицы
 
-            player.sendMessage("§aЗаряд овцы: §f" + newCharge + "§a/" + maxCharges);
+            //player.sendMessage("§aЗаряд овцы: §f" + newCharge + "§a/" + maxCharges);
             return;
         }
 
         // ------------- Активация/воспламенение (правый клик Flint&Steel) -------------
-        if (item != null && item.getType() == igniteItem) {
+        if (item.getType() == igniteItem) {
             event.setCancelled(true);
 
             // Если уже активирован таймер — не запускать второй
             if (activeTimers.containsKey(sid)) {
-                player.sendMessage("§cЭта сущность уже активирована.");
+                //player.sendMessage("§cЭта сущность уже активирована.");
                 return;
             }
 
@@ -152,11 +155,10 @@ public class SheepInteractListener implements Listener {
             // если нужно требовать хотя бы 1 заряд — можно проверить (опция)
             boolean requireCharge = cfg.getBoolean("require-charge-to-ignite", false);
             if (requireCharge && charges <= 0) {
-                player.sendMessage("§cНельзя активировать: овца не заряжена.");
+                //player.sendMessage("§cНельзя активировать: овца не заряжена.");
                 return;
             }
 
-            // уменьшение прочности/использование зажигалки можно реализовать, но опустим
 
             // звук и частицы при старте отсчёта
             Location startLoc = sheep.getLocation();
@@ -250,7 +252,7 @@ public class SheepInteractListener implements Listener {
             // сохраняем задачу
             activeTimers.put(sid, task);
 
-            player.sendMessage("§aОвца активирована! Заряд: §f" + charges + " §a(мощность: " + finalPower + ")");
+            //player.sendMessage("§aОвца активирована! Заряд: §f" + charges + " §a(мощность: " + finalPower + ")");
             return;
         }
     }
